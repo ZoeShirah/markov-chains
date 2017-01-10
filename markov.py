@@ -39,7 +39,20 @@ def make_text(chains):
 
     text = ""
 
-    # your code goes here
+    tup_word = choice(chains.keys())
+    text += str(tup_word[0]) + " " + str(tup_word[1])
+    word1 = tup_word[1]
+    word2 = choice(chains[tup_word])
+    text += " " + word2
+
+    while True:
+        tup_word = (word1, word2)
+        if tup_word in chains:
+            word1 = tup_word[1]
+            word2 = choice(chains[tup_word])
+            text += " " + word2
+        else:
+            break
 
     return text
 
