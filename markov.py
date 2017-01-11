@@ -39,21 +39,23 @@ def make_chains(text_string, n=2):
     return chains
 
 
-def make_text(chains):
+def make_text(chains, n=2):
     """Takes dictionary of markov chains; returns random text."""
 
     text = ""
 
     tup_word = choice(chains.keys())
-    text += str(tup_word[0]) + " " + str(tup_word[1])
-    word1 = tup_word[1]
+    text = ""
+    for word in tup_word:
+        text += word + " "
+    word1 = tup_word[1:n-1]
     word2 = choice(chains[tup_word])
     text += " " + word2
 
     while True:
-        tup_word = (word1, word2)
+        tup_word = word1 + (word2,)
         if tup_word in chains:
-            word1 = tup_word[1]
+            word1 = tup_word[1:] + (word2,)
             word2 = choice(chains[tup_word])
             text += " " + word2
         else:
@@ -64,10 +66,11 @@ def make_text(chains):
 
 input_path = sys.argv[1]
 
-# Open the file and turn it into one long string
+
+#Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
 
-# Get a Markov chain
+#Get a Markov chain
 chains = make_chains(input_text)
 
 # Produce random text
