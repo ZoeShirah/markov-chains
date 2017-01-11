@@ -1,5 +1,5 @@
 from random import choice
-
+import sys
 
 def open_and_read_file(file_path):
     """Takes file path as string; returns text as string.
@@ -13,7 +13,7 @@ def open_and_read_file(file_path):
     return file_string
 
 
-def make_chains(text_string):
+def make_chains(text_string, n=2):
     """Takes input text as string; returns _dictionary_ of markov chains.
 
     A chain will be a key that consists of a tuple of (word1, word2)
@@ -27,9 +27,14 @@ def make_chains(text_string):
     """
     chains = {}
     words = text_string.split()
-    for i in range(len(words)-2):
-        wordpair = (words[i], words[i+1])
-        chains[wordpair] = chains.get(wordpair, list()) + [words[i+2]]
+
+    wordtup = tuple()
+    for i in range(len(words)-n):
+        for z in range(i, i+n):
+            wordtup = wordtup + (words[z],)
+
+        chains[wordtup] = chains.get(wordtup, list()) + [words[i+n]]
+        wordtup = tuple()
 
     return chains
 
@@ -57,7 +62,7 @@ def make_text(chains):
     return text
 
 
-input_path = "green-eggs.txt"
+input_path = sys.argv[1]
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
