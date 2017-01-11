@@ -48,14 +48,15 @@ def make_text(chains, n=2):
     text = ""
     for word in tup_word:
         text += word + " "
-    word1 = tup_word[1:n-1]
+    word1 = tup_word[1:]
     word2 = choice(chains[tup_word])
     text += " " + word2
 
     while True:
-        tup_word = word1 + (word2,)
+	word2 = tuple((word2,))
+        tup_word = word1 + word2
         if tup_word in chains:
-            word1 = tup_word[1:] + (word2,)
+            word1 = tup_word[1:]
             word2 = choice(chains[tup_word])
             text += " " + word2
         else:
@@ -77,3 +78,7 @@ chains = make_chains(input_text)
 random_text = make_text(chains)
 
 print random_text
+
+
+
+
