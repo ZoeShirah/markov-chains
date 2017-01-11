@@ -50,7 +50,7 @@ def make_text(chains, n=2):
         text += word + " "
     word1 = tup_word[1:]
     word2 = choice(chains[tup_word])
-    text += " " + word2
+    text += word2
 
     while True:
 	word2 = tuple((word2,))
@@ -67,15 +67,22 @@ def make_text(chains, n=2):
 
 input_path = sys.argv[1]
 
+while True:
+	try:
+		user_ngram = int(raw_input("Please specify desired size of n-gram: "))
+		break
+	except ValueError:
+		print "Not a valid number, try again"
+	
 
 #Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
 
 #Get a Markov chain
-chains = make_chains(input_text)
+chains = make_chains(input_text, user_ngram)
 
 # Produce random text
-random_text = make_text(chains)
+random_text = make_text(chains, user_ngram)
 
 print random_text
 
